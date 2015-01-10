@@ -10,3 +10,8 @@ I place this file in /etc and source it from /etc/bashrc via the below snippet; 
 ```
 [ -r /etc/promptShell ] && . /etc/promptShell
 ```
+
+###### hushlogin
+Removes any login messages when terminal is opened (last login, etc.).
+Copy this file to ~/.hushlogin
+
