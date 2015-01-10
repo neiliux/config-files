@@ -81,4 +81,13 @@ function setup_svn () {
   fi
 }
 
+# This is the prompt that ships with 10.10.1
+#PS1='\h:\W \u\$ '
+
+export PS1='\[\033[1;34m\]\w\[\033[0m\]> '
+export ORG_PS1=$PS1
+
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
 export PROMPT_COMMAND="prompt_command; $PROMPT_COMMAND"
