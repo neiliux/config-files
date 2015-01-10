@@ -19,6 +19,25 @@ function prompt_command () {
   local BOLD="\[\033[;1m\]"
 
   setup_svn
+  setup_git
+}
+
+function setup_git () {
+  local gitStatus="$(git status 2>/dev/null)"
+  local branchNameRegex="On branch ([^${IFS}]*)"
+
+  if [[ $gitStatus =~ $branchNameRegex ]]; then
+    local gitPs1="${CYAN}git${RESET} "
+    local branchName="${BASH_REMATCH[1]}"
+
+    if [[ $gitStatus =~ "nothing to commit" ]]; then
+      gitPs1+="${GREEN}$branchName"
+    else 
+      gitPs1+="${RED}$branchName"
+    fi
+
+    PS1="$gitPs1\n$ORG_PS1"
+  fi
 }
 
 function setup_svn () {
