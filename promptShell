@@ -1,0 +1,54 @@
+function prompt_command () {
+  local BLACK="\[\033[0;30m\]"
+  local DGREY="\[\033[1;30m\]"
+  local RED="\[\033[0;31m\]"
+  local LRED="\[\033[1;31m\]"
+  local GREEN="\[\033[0;32m"
+  local LGREEN="\[\033[1;32m\]"
+  local BROWN="\[\033[0;33m\]"
+  local YELLOW="\[\033[1;33m\]"
+  local BLUE="\[\033[0;34m\]"
+  local LBLUE="\[\033[1;34m\]"
+  local PURPLE="\[\033[0;35m\]"  
+  local LPURPLE="\[\033[1;35m\]"
+  local CYAN="\[\033[0;36m\]"
+  local LCYAN="\[\033[1;36m\]"
+  local LGREY="\[\033[0;37m\]"
+  local WHITE="\[\033[1;37m\]"
+  local RESET="\[\033[0m"
+  local BOLD="\[\033[;1m\]"
+
+  setup_svn
+}
+
+function setup_svn () {
+  local svnUrl=$((svn info | grep '^URL:') 2>/dev/null)
+
+  if [ -n "$svnUrl" ]; then
+    local svnPs1="${CYAN}SVN${RESET}"
+    local dirty=$(svn status -q)
+
+    if [[ -n $dirty ]]; then
+      svnPs1="${svnPs1}${RED}"
+    else
+      svnPs1="${svnPs1}${GREEN}"
+    fi
+
+    local trunkRegEx="^URL: .*/trunk(/.*)?$"
+    if [[ $svnUrl =~ $trunkRegEx ]]; then
+       svnPs1="$svnPs1 trunk"
+    else
+       local branchRegEx="^URL: .*/(branch(es)?|tags)/([^/]+)"
+       if [[ $svnUrl =~ $branchRegEx ]]; then
+           local branchName=${BASH_REMATCH[3]}
+           svnPs1="$svnPs1 $branchName"
+       fi
+    fi
+
+    PS1="$svnPs1\n$ORG_PS1"
+  else
+    PS1=$ORG_PS1
+  fi
+}
+
+export PROMPT_COMMAND="prompt_command; $PROMPT_COMMAND"
