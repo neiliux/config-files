@@ -18,8 +18,13 @@ function prompt_command () {
   local RESET="\[\033[0m"
   local BOLD="\[\033[;1m\]"
 
+  local setPs1=0
+
   setup_svn
-  setup_git
+
+  if [[ "$setPs1" == "0" ]]; then
+    setup_git
+  fi
 }
 
 function setup_git () {
@@ -37,6 +42,10 @@ function setup_git () {
     fi
 
     PS1="$gitPs1\n$ORG_PS1"
+    setPs1=1
+  else
+    PS1=$ORG_PS1
+    setPs1=0
   fi
 }
 
@@ -44,29 +53,31 @@ function setup_svn () {
   local svnUrl=$((svn info | grep '^URL:') 2>/dev/null)
 
   if [ -n "$svnUrl" ]; then
-    local svnPs1="${CYAN}SVN${RESET}"
+    local svnPs1="${CYAN}svn${RESET}"
     local dirty=$(svn status -q)
 
     if [[ -n $dirty ]]; then
-      svnPs1="${svnPs1}${RED}"
+      svnPs1+="${RED}"
     else
-      svnPs1="${svnPs1}${GREEN}"
+      svnPs1+="${GREEN}"
     fi
 
     local trunkRegEx="^URL: .*/trunk(/.*)?$"
     if [[ $svnUrl =~ $trunkRegEx ]]; then
-       svnPs1="$svnPs1 trunk"
+       svnPs1+=" trunk"
     else
        local branchRegEx="^URL: .*/(branch(es)?|tags)/([^/]+)"
        if [[ $svnUrl =~ $branchRegEx ]]; then
            local branchName=${BASH_REMATCH[3]}
-           svnPs1="$svnPs1 $branchName"
+           svnPs1+=" $branchName"
        fi
     fi
 
     PS1="$svnPs1\n$ORG_PS1"
+    setPs1=1
   else
     PS1=$ORG_PS1
+    setPs1=0
   fi
 }
 
