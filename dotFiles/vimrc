@@ -1,0 +1,21 @@
+set nocompatible
+set backspace=indent,eol,start
+set number
+syntax on
+
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+
+Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+set laststatus=2
+set term=xterm-256color
+set termencoding=utf-8
+
+Bundle "scrooloose/nerdtree"
+
+call vundle#end()
+
+filetype plugin indent on
+
