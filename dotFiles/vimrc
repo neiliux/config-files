@@ -2,6 +2,12 @@ set nocompatible
 set backspace=indent,eol,start
 set number
 set path+=**
+set background=dark
+set nowrap
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set t_Co=256
 
 syntax on
 
