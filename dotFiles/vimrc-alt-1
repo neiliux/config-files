@@ -1,0 +1,36 @@
+set nocompatible
+set backspace=indent,eol,start
+set number
+set background=dark
+set nowrap
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set t_Co=256
+set term=xterm-256color
+set termencoding=utf-8
+set path+=**
+
+syntax on
+
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'scrooloose/nerdtree'
+"Bundle 'Shougo/vimproc.vim'
+"Bundle 'Quramy/tsuquyomi'
+
+filetype plugin indent on
+au BufRead,BufNewFile *.ts  setlocal filetype=typescript
+set rtp+=~/.vim/bundle/typescript-tools.vim/
+
+source /opt/boxen/homebrew/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
+set laststatus=2
+
+command NT NERDTree
+command Nt NERDTree
+
+let g:TSS = ['/opt/boxen/nodenv/versions/v0.10.26/lib/node_modules/typescript-tools/bin/tss' ]
+
