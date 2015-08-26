@@ -10,27 +10,34 @@ set t_Co=256
 set term=xterm-256color
 set termencoding=utf-8
 set path+=**
+set hlsearch
+set hidden
 
 syntax on
 
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" Plug: Vim plug-in manager; https://github.com/junegunn/vim-plug
+call plug#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'scrooloose/nerdtree'
-"Bundle 'Shougo/vimproc.vim'
-"Bundle 'Quramy/tsuquyomi'
+Plug 'scrooloose/nerdtree'
+Plug 'sheerun/vim-polyglot'
+Plug 'clausreinke/typescript-tools.vim'
+
+call plug#end()
 
 filetype plugin indent on
 au BufRead,BufNewFile *.ts  setlocal filetype=typescript
-set rtp+=~/.vim/bundle/typescript-tools.vim/
+au BufWrite * :%s/\s\+$//e
 
 source /opt/boxen/homebrew/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
 set laststatus=2
 
+set omnifunc=syntaxcomplete#Complete
+
+let g:TSS = ['/opt/boxen/nodenv/versions/v0.10.26/lib/node_modules/typescript-tools/bin/tss']
+
 command NT NERDTree
 command Nt NERDTree
 
-let g:TSS = ['/opt/boxen/nodenv/versions/v0.10.26/lib/node_modules/typescript-tools/bin/tss' ]
+nnoremap <silent> <left> :bprevious<cr>
+nnoremap <silent> <right> :bnext<cr>
 
